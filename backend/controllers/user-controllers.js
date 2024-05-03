@@ -12,22 +12,22 @@ export const getAllUsers = async (req, res) => {
         return res.status(200).send({ message: "Error", cause: error.message });
     }
 }
-export const userSignin = async(req, res) => {
+export const userSignup = async(req, res) => {
     try {
-        const { name, email, password} = req.body
-        const hashPassoword = await bcrypt.hash(password, 10)
+        const { name, email, password, selectrole, profilepicture} = req.body
+        const hashPassword = await bcrypt.hash(password, 10)
         const existingUser = await User.findOne({ email })
         if (existingUser) {
             return res.status(401).send("User already registered");
         }
 
-        const user = new User({ name: name, email: email, password: hashPassoword })
+        const user = new User({ name: name, email: email, password: hashPassword, selectrole, profilepicture })
         await user.save();
         res.status(200).json({ message: "SignIn Success", user })
 
     } catch (error) {
         console.log(error);
-        return res.status(500).send({ message: "Error", cause: error.message });
+        return res.status(500).send({ message: "Error user cant signin", cause: error.message });
     }
 }
 
@@ -50,6 +50,6 @@ export const userLogin = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        return res.status(500).send({ message: "Error", cause: error.message });
+        return res.status(500).send({ message: "Error user cant login ", cause: error.message });
     }
 }

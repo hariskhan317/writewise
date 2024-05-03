@@ -1,15 +1,22 @@
-import React, { useRef } from 'react' 
+import React, { useRef } from 'react';
+import { toast } from 'react-toastify';
+import { useAuth } from '../context/AuthContext.jsx';
 
 export default function Login() {
+    const auth = useAuth(); 
     const emailRef = useRef();
     const passwordRef = useRef();
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        const email = emailRef.current.target.value;
-        const password = passwordRef.current.target.value;
-        console.log({ email })
-        console.log({password})
-
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value; 
+        try {
+            await auth?.login(email, password)
+            toast.success('User Login successfully!');
+        } catch (error) {
+            console.log(error);
+            toast.error('Login Failed!');
+        }
     }
 
     return (

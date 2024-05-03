@@ -8,18 +8,18 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+
     },
     password: {
         type: String,
         required: true
     },
-    role: {
+    selectrole: {
         type: String,
         enum: ['reader', 'writer'],
         default: 'reader',
     },
-    profilePicture: {
+    profilepicture: {
         type: String,
         default: 'default_profile_picture.jpg'
     },
